@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Mercadologos Dijeron</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+    <div class="lights-container">
+        <!-- Las luces se generarán con JavaScript -->
+    </div>
+    <div class="spin-image"></div>
+    <div class="button-container">
+        <button class="play-button"  onclick="showRoles()">Jugar</button>
+    </div>
+
+    <div class="role-buttons" id="roleButtons" style="display: none">
+        <div class="selectorRol" id="selectorRol" style="display: none">
+          <h2>¿Controlas o participas?</h2>
+        </div>
+        <button class="role-button" onClick="redirectToTablero()">
+           <i class="fa-solid fa-brain" style="color: #c624a9;"></i>Controlador del Juego
+        </button>
+
+        <button class="role-button" onClick="redirectToJugadores()">
+             <i class="fa-solid fa-gamepad" style="color: #a17fe1;"></i>Jugadores
+        </button>
+      </div>
+
+    <div class="message" id="message">Haz clic aquí para comenzar el audio</div>
+
+    <script>
+        function redirectToTablero() {
+            // Redirige a otra página (puedes cambiar 'pagina-de-juego.html' a la URL de tu elección)
+            window.location.href = 'control.php';
+        }
+
+        function redirectToJugadores() {
+            // Redirige a otra página (puedes cambiar 'pagina-de-juego.html' a la URL de tu elección)
+            window.location.href = 'public.php';
+        }
+
+        //funcion para que se visualicen los botones de jugador o controlador
+         // Mostrar roles después de darle jugar
+        const showRoles = () => {
+            const playContainer = document.getElementById('playContainer');
+            const roleButtons = document.getElementById('roleButtons');
+            const selectorRol = document.getElementById('selectorRol');
+            if (playContainer) playContainer.style.display = 'none';
+            if (roleButtons) roleButtons.style.display = 'inline-block';
+            if (selectorRol) selectorRol.style.display = 'flex';
+        };
+        // Generar luces alrededor del perímetro
+        const lightsContainer = document.querySelector('.lights-container');
+        const numLights = 100; // Reducir el total de luces
+        const lightsPerSide = numLights / 4; // Luces por lado del perímetro
+        const sides = ['top', 'right', 'bottom', 'left'];
+
+        sides.forEach(side => {
+            for (let i = 0; i < lightsPerSide; i++) {
+                const light = document.createElement('div');
+                light.classList.add('light');
+                light.style.position = 'absolute';
+                light.style[side] = '0';
+
+                if (side === 'top' || side === 'bottom') {
+                    light.style.left = `${(i / lightsPerSide) * 100}%`;
+                } else {
+                    light.style.top = `${(i / lightsPerSide) * 100}%`;
+                }
+
+                lightsContainer.appendChild(light);
+            }
+        });
+
+        // Reproducir audio tras la primera interacción del usuario
+        const audio = new Audio('sounds/intro.mp3');
+        audio.loop = true;
+
+        document.getElementById('message').addEventListener('click', function() {
+            audio.play();
+            this.style.display = 'none'; // Ocultar el mensaje después de hacer clic
+        });
+    </script>
+</body>
+</html>
